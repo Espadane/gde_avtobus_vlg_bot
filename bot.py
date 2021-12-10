@@ -86,8 +86,8 @@ async def handle_location(msg: types.Message):
     """Получение данных местоположения и вывод кнопок"""
     latittude = msg.location.latitude
     longitude = msg.location.longitude
+    stops = get_stops_nearby_data(latittude, longitude)
     try:
-        stops = get_stops_nearby_data(latittude, longitude)
         for stop in stops:
             stop_url = stop['stop_url']
             stop_title = stop['stop_title']
