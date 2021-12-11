@@ -87,16 +87,19 @@ async def handle_location(msg: types.Message):
     latittude = msg.location.latitude
     longitude = msg.location.longitude
     stops = get_stops_nearby_data(latittude, longitude)
-    try:
-        for stop in stops:
-            stop_url = stop['stop_url']
-            stop_title = stop['stop_title']
-            button=(types.InlineKeyboardButton(text=f"{stop_title} ", callback_data='show_routes'))
-            keyboard = types.InlineKeyboardMarkup(row_width=1)
-            keyboard.add(button)
-            await msg.answer(f"<a href = '{stop_url}'>Посмотреть полное расписание</a>", reply_markup=keyboard,disable_web_page_preview=True, parse_mode=types.ParseMode.HTML)
-    except:
+    if stops == 400:
         await msg.answer(f"Рядом в ближайшее время не будет транспорта. Либо уже поздно и он весь лег спать, либо сайт не доступен.",disable_web_page_preview=True, parse_mode=types.ParseMode.HTML)
+    else:
+        try:
+            for stop in stops:
+                stop_url = stop['stop_url']
+                stop_title = stop['stop_title']
+                button=(types.InlineKeyboardButton(text=f"{stop_title} ", callback_data='show_routes'))
+                keyboard = types.InlineKeyboardMarkup(row_width=1)
+                keyboard.add(button)
+                await msg.answer(f"<a href = '{stop_url}'>Посмотреть полное расписание</a>", reply_markup=keyboard,disable_web_page_preview=True, parse_mode=types.ParseMode.HTML)
+        except:
+            await msg.answer(f"Рядом в ближайшее время не будет транспорта. Либо уже поздно и он весь лег спать, либо сайт не доступен.",disable_web_page_preview=True, parse_mode=types.ParseMode.HTML)
 
 @dp.callback_query_handler(text='show_routes')
 async def show_routes(call: types.callback_query):
