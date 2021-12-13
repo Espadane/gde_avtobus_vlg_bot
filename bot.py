@@ -87,7 +87,7 @@ async def handle_location(msg: types.Message):
     latittude = msg.location.latitude
     longitude = msg.location.longitude
     stops = get_stops_nearby_data(latittude, longitude)
-    if stops == 400:
+    if stops == []:
         await msg.answer(f"Рядом в ближайшее время не будет транспорта. Либо уже поздно и он весь лег спать, либо сайт не доступен.",disable_web_page_preview=True, parse_mode=types.ParseMode.HTML)
     else:
         try:
