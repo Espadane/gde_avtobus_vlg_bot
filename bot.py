@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters import Text
 import emoji
 from parser import *
 
-bot_token = getenv("BOT_TOKEN")
+bot_token = getenv("AVTOBUS_BOT_TOKEN")
 if not bot_token:
     exit("Error: no token provided")
 
